@@ -1,0 +1,1706 @@
+<div id="radio-ppid-team-section">
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/swiper@11/swiper-bundle.min.css"
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:ital,wght@0,600;1,600&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    #radio-ppid-team-section {
+      font-family: "Inter", sans-serif;
+      width: 100%;
+      clear: both;
+      overflow: visible !important;
+      display: block !important;
+      padding: 48px 16px;
+      background: linear-gradient(to bottom right, #f9fafb, #f3f4f6);
+    }
+
+    #radio-ppid-team-section * {
+      box-sizing: border-box;
+    }
+
+    #radio-ppid-team-section .team-container {
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+
+    #radio-ppid-team-section .team-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    #radio-ppid-team-section .team-header h1 {
+      font-size: 3rem;
+      font-weight: bold;
+      color: #111827;
+      margin-bottom: 16px;
+    }
+
+    #radio-ppid-team-section .team-header p {
+      font-size: 1.125rem;
+      color: #6b7280;
+    }
+
+    #radio-ppid-team-section .team-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    #radio-ppid-team-section .division-selector {
+      width: 100%;
+    }
+
+    #radio-ppid-team-section .division-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    /* Breadcrumb Navigation */
+    #radio-ppid-team-section .breadcrumb-nav {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+
+    #radio-ppid-team-section .breadcrumb-nav.show {
+      display: flex;
+    }
+
+    #radio-ppid-team-section .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      color: #6b7280;
+    }
+
+    #radio-ppid-team-section .breadcrumb-link {
+      color: #1e3a8a;
+      cursor: pointer;
+      font-weight: 600;
+      transition: color 0.3s ease;
+    }
+
+    #radio-ppid-team-section .breadcrumb-link:hover {
+      color: #3b82f6;
+      text-decoration: underline;
+    }
+
+    #radio-ppid-team-section .breadcrumb-current {
+      color: #111827;
+      font-weight: 600;
+    }
+
+    #radio-ppid-team-section .breadcrumb-separator {
+      color: #9ca3af;
+    }
+
+    /* Division Buttons - Horizontal Scroll */
+    #radio-ppid-team-section .division-buttons {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 8px 4px;
+      scrollbar-width: thin;
+      scrollbar-color: #cbd5e1 #f1f5f9;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    #radio-ppid-team-section .division-buttons::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    #radio-ppid-team-section .division-buttons::-webkit-scrollbar-track {
+      background: #f1f5f9;
+      border-radius: 10px;
+    }
+
+    #radio-ppid-team-section .division-buttons::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+
+    #radio-ppid-team-section .division-button {
+      padding: 12px 32px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: #374151;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    #radio-ppid-team-section .division-button:hover {
+      background: #f3f4f6;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+
+    #radio-ppid-team-section .division-button.active {
+      background: #1e3a8a;
+      color: white;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
+    }
+
+    #radio-ppid-team-section .division-button::after {
+      content: "▼";
+      margin-left: 8px;
+      font-size: 0.75rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    #radio-ppid-team-section .division-button.active::after {
+      content: "✓";
+      font-size: 1rem;
+      transform: scale(1.2);
+    }
+
+    /* GAYA BARU: Sembunyikan panah untuk tombol tanpa sub-divisi */
+    #radio-ppid-team-section .division-button.no-sub-divisions::after {
+      display: none;
+    }
+
+    /* GAYA BARU: Tampilkan centang saat aktif, bahkan tanpa sub-divisi */
+    #radio-ppid-team-section .division-button.no-sub-divisions.active::after {
+      content: "✓";
+      margin-left: 8px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+      transform: scale(1.2);
+    }
+
+    /* Sub Division Container */
+    #radio-ppid-team-section .sub-division-container {
+      width: 100%;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      margin-top: 16px;
+      display: none;
+      animation: slideDown 0.3s ease;
+    }
+
+    #radio-ppid-team-section .sub-division-container.show {
+      display: block;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #radio-ppid-team-section .sub-division-title {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    #radio-ppid-team-section .sub-division-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    #radio-ppid-team-section .sub-division-button {
+      padding: 10px 24px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      background: white;
+      color: #6b7280;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    #radio-ppid-team-section .sub-division-button:hover {
+      border-color: #1e3a8a;
+      color: #1e3a8a;
+      background: #f0f4ff;
+    }
+
+    #radio-ppid-team-section .sub-division-button.active {
+      background: #1e3a8a;
+      color: white;
+      border-color: #1e3a8a;
+    }
+
+    /* Team Slider Container */
+    #radio-ppid-team-section .slider-container {
+      background: white;
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      min-height: 600px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Swiper Styles */
+    #radio-ppid-team-section .swiper {
+      width: 100%;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      position: relative;
+      overflow: visible;
+    }
+
+    #radio-ppid-team-section .swiper-slide {
+      background-position: center;
+      background-size: cover;
+      width: 320px;
+      height: 450px;
+      background-color: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      filter: blur(2px) grayscale(50%);
+      transform: scale(0.85);
+      transition: filter 0.5s, transform 0.5s;
+    }
+
+    #radio-ppid-team-section .swiper-slide-active {
+      filter: blur(0) grayscale(0%);
+      transform: scale(1);
+    }
+
+    #radio-ppid-team-section .swiper-slide .content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+      background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
+      color: white;
+      text-align: center;
+    }
+
+    #radio-ppid-team-section .swiper-slide img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    #radio-ppid-team-section .swiper-slide h3 {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+      margin: 0 0 8px 0;
+    }
+
+    #radio-ppid-team-section .swiper-slide p {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #e5e7eb;
+      margin: 0;
+    }
+
+    /* Member bio and IG button */
+    #radio-ppid-team-section .member-bio {
+      font-size: 0.95rem;
+      color: rgba(229, 231, 235, 0.95);
+      margin-top: 8px;
+      line-height: 1.2;
+      max-height: 3.6em; /* roughly 3 lines */
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #radio-ppid-team-section .member-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    #radio-ppid-team-section .ig-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      transition: background 0.2s, transform 0.12s;
+    }
+
+    #radio-ppid-team-section .ig-button:hover {
+      background: rgba(255, 255, 255, 0.14);
+      transform: translateY(-2px);
+    }
+
+    /* Navigation Arrows */
+    #radio-ppid-team-section .unique-slider-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 10;
+      cursor: pointer;
+      color: #1e3a8a;
+      background-color: transparent !important;
+      padding: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #radio-ppid-team-section .unique-slider-prev {
+      left: 10px;
+    }
+    #radio-ppid-team-section .unique-slider-next {
+      right: 10px;
+    }
+
+    #radio-ppid-team-section .unique-slider-arrow::after {
+      font-family: swiper-icons;
+      font-size: 28px !important;
+      font-weight: bold;
+    }
+
+    #radio-ppid-team-section .unique-slider-prev::after {
+      content: "prev";
+    }
+    #radio-ppid-team-section .unique-slider-next::after {
+      content: "next";
+    }
+
+    #radio-ppid-team-section .unique-slider-arrow.swiper-button-disabled {
+      opacity: 0;
+      cursor: auto;
+      pointer-events: none;
+    }
+
+    #radio-ppid-team-section .swiper-3d .swiper-slide-shadow-left,
+    #radio-ppid-team-section .swiper-3d .swiper-slide-shadow-right {
+      background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0)
+      );
+    }
+
+    /* Empty State */
+    #radio-ppid-team-section .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 450px;
+      color: #6b7280;
+    }
+
+    #radio-ppid-team-section .empty-state svg {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    #radio-ppid-team-section .empty-state p {
+      font-size: 1.125rem;
+      font-weight: 500;
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      #radio-ppid-team-section {
+        padding: 32px 12px;
+      }
+
+      #radio-ppid-team-section .team-header h1 {
+        font-size: 2rem;
+      }
+
+      #radio-ppid-team-section .team-header p {
+        font-size: 1rem;
+      }
+
+      #radio-ppid-team-section .division-title {
+        font-size: 1.25rem;
+        margin-bottom: 16px;
+      }
+
+      #radio-ppid-team-section .division-button {
+        padding: 10px 20px;
+        font-size: 0.875rem;
+      }
+
+      #radio-ppid-team-section .sub-division-button {
+        padding: 8px 16px;
+        font-size: 0.85rem;
+      }
+
+      #radio-ppid-team-section .breadcrumb-item {
+        font-size: 0.875rem;
+      }
+
+      #radio-ppid-team-section .swiper-slide {
+        width: 280px;
+        height: 400px;
+      }
+
+      #radio-ppid-team-section .slider-container {
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #radio-ppid-team-section .team-header h1 {
+        font-size: 1.75rem;
+      }
+
+      #radio-ppid-team-section .division-button {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+      }
+
+      #radio-ppid-team-section .swiper-slide {
+        width: 240px;
+        height: 360px;
+      }
+
+      #radio-ppid-team-section .unique-slider-arrow {
+        width: 36px;
+        height: 36px;
+      }
+
+      #radio-ppid-team-section .unique-slider-arrow::after {
+        font-size: 22px !important;
+      }
+
+      #radio-ppid-team-section .unique-slider-prev {
+        left: 0px;
+      }
+      #radio-ppid-team-section .unique-slider-next {
+        right: 0px;
+      }
+    }
+  </style>
+
+  <div class="team-container">
+    <div class="team-header">
+      <h1>RPD Squad</h1>
+      <p>Meet the talented people behind Radio PPID Dunia</p>
+    </div>
+
+    <div class="team-layout">
+      <div class="division-selector">
+        <div class="breadcrumb-nav" id="breadcrumb-nav">
+          <div class="breadcrumb-item">
+            <span class="breadcrumb-link" id="breadcrumb-home"
+              >All Directorat</span
+            >
+          </div>
+          <div
+            class="breadcrumb-item"
+            id="breadcrumb-directorate-container"
+            style="display: none"
+          >
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-link" id="breadcrumb-directorate"></span>
+          </div>
+          <div
+            class="breadcrumb-item"
+            id="breadcrumb-division-container"
+            style="display: none"
+          >
+            <span class="breadcrumb-separator">›</span>
+            <span class="breadcrumb-current" id="breadcrumb-division"></span>
+          </div>
+        </div>
+
+        <h2 class="division-title" id="main-title">Directorat</h2>
+        <div class="division-buttons" id="directorate-buttons"></div>
+
+        <div class="sub-division-container" id="sub-division-container">
+          <h3 class="sub-division-title" id="sub-division-title">
+            Select Division
+          </h3>
+          <div class="sub-division-buttons" id="sub-division-buttons"></div>
+        </div>
+      </div>
+
+      <div class="slider-container">
+        <div class="swiper">
+          <div class="swiper-wrapper" id="team-swiper-wrapper"></div>
+          <div class="unique-slider-arrow unique-slider-next"></div>
+          <div class="unique-slider-arrow unique-slider-prev"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/swiper@11/swiper-bundle.min.js"></script>
+  <script>
+    (function () {
+      const teamData = {
+        // DATA BARU: BOD ditambahkan di sini
+        bod: {
+          name: "BOD",
+          divisions: {}, // Dibuat kosong karena tidak memiliki sub-divisi
+          members: [
+            {
+              name: "Muhammad Faris Ilham",
+              position: "Executive Director",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/SK_farisilham_exdir-removebg-preview.png",
+              bio: "Executive Director with 10+ years leading creative teams. Loves podcasts and storytelling.",
+              instagram: "https://instagram.com/farisilham",
+            },
+            {
+              name: "Zeta Zhafira",
+              position: "Advisor",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/Zeta-removebg-preview.png",
+              bio: "Bio dummy untuk Zeta Zhafira, seorang Advisor.",
+              instagram: "https://instagram.com/zetazhafira",
+            },
+            {
+              name: "Jasmine Khansa Aqila",
+              position: "General Secretary",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Jasmine_Sekre1.png",
+              bio: "Bio dummy untuk Jasmine Khansa Aqila, seorang General Secretary.",
+              instagram: "https://instagram.com/jasminekhansa",
+            },
+            {
+              name: "Faizzia Hidaya Kibria",
+              position: "Vice Secretary",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/pais_sek2-removebg-preview.png",
+              bio: "Bio dummy untuk Faizzia Hidaya Kibria, seorang Vice Secretary.",
+              instagram: "https://instagram.com/faizziahidaya",
+            },
+            {
+              name: "Putri Zakiatun Nufus",
+              position: "Treasurer",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Putri_Bendahara.png",
+              bio: "Bio dummy untuk Putri Zakiatun Nufus, seorang Treasurer.",
+              instagram: "https://instagram.com/putrizakiatun",
+            },
+            {
+              name: "Ridla Yakti Adhiningrum",
+              position: "Communication Director",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Ridla.png",
+              bio: "Bio dummy untuk Ridla Yakti Adhiningrum, seorang Communication Director.",
+              instagram: "https://instagram.com/ridlayakti",
+            },
+            {
+              name: "Givarli Alhaqy Asrul",
+              position: "Operational Director",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/alio_dirops-removebg-preview.png",
+              bio: "Bio dummy untuk Givarli Alhaqy Asrul, seorang Operational Director.",
+              instagram: "https://instagram.com/givarli",
+            },
+            {
+              name: "Muhammad Zulfan Abidin",
+              position: "Technology Director",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/zulfan.png",
+              bio: "Bio dummy untuk Muhammad Zulfan Abidin, seorang Technology Director.",
+              instagram: "https://instagram.com/zulfanabidin",
+            },
+            {
+              name: "Elang Fatih Al-Mahdi",
+              position: "Production Director",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/Elang_-_DirProd-removebg-preview.png",
+              bio: "Bio dummy untuk Elang Fatih Al-Mahdi, seorang Production Director.",
+              instagram: "https://instagram.com/elangfatih",
+            },
+            {
+              name: "Diniyati Hafidzah",
+              position: "Marketing Director",
+              image:
+                "https://radioppidunia.org/wp-content/uploads/2025/09/SK-dini-Marketing.png",
+              bio: "Bio dummy untuk Diniyati Hafidzah, seorang Marketing Director.",
+              instagram: "https://instagram.com/diniyati",
+            },
+          ],
+        },
+        operational: {
+          name: "Operational",
+          divisions: {
+            hrd: {
+              name: "Human Resource",
+              members: [
+                {
+                  name: "Dian Pratiwi",
+                  position: "HR Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK_farisilham_exdir-removebg-preview.png",
+                  bio: "Bio dummy untuk Dian Pratiwi, seorang HR Manager.",
+                  instagram: "https://instagram.com/dianpratiwi",
+                },
+                {
+                  name: "Hendra Gunawan",
+                  position: "HR Coordinator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Zeta-removebg-preview.png",
+                  bio: "Bio dummy untuk Hendra Gunawan, seorang HR Coordinator.",
+                  instagram: "https://instagram.com/hendragunawan",
+                },
+                {
+                  name: "Lina Marlina",
+                  position: "Talent Acquisition",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Jasmine_Sekre1.png",
+                  bio: "Bio dummy untuk Lina Marlina, seorang Talent Acquisition.",
+                  instagram: "https://instagram.com/linamarlina",
+                },
+                {
+                  name: "Nurul Haura Syakira ",
+                  position: "HR Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG-20251011-WA0279-Nurul-Haura-Syakira-scaled.jpg",
+                  bio: "Bio dummy untuk Nurul Haura Syakira, seorang Manager.",
+                  instagram: "https://instagram.com/Nrlhaurasy",
+                },
+                {
+                  name: "Bayu Arif Sulana",
+                  position: "Asistent Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/fxn-2025-11-01-093924.923-Bayu-Arif-scaled.jpeg",
+                  bio: "Bio dummy untuk Bayu Arif Sulana, seorang Asistent Manager.",
+                  instagram: "https://instagram.com/arifsulanaa",
+                },
+                {
+                  name: "Aliffha Aranxa Seany Palit",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/769A19C7-955A-4B76-BA62-6A5AEBADCC89-Aliffha-Aranxa-scaled.jpeg",
+                  bio: "Bio dummy untuk Aliffha Aranxa Seany Palit, seorang Staff.",
+                  instagram: "https://instagram.com/Aliffhaaranxa",
+                },
+                {
+                  name: "Rafid Rizqon Mumtaz ",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/20241210_145152-Rafid-Rizqon-Mumtaz-scaled.jpg",
+                  bio: "Bio dummy untuk Nurul Fadilah, seorang Sobat Siar.",
+                  instagram: "https://instagram.com/nurulfadilah",
+                },
+                {
+                  name: "Marvella Velika Alessandra",
+                  position: "Sobat Siar",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/Image1-Marvella-Velika-Alessandra.jpg",
+                  bio: "Bio dummy untuk Marvella Velika Alessandra, seorang Sobat Siar.",
+                  instagram: "https://instagram.com/vel.aless",
+                },
+              ],
+            },
+            program: {
+              name: "Program Division",
+              members: [
+                {
+                  name: "Ahmad Risky",
+                  position: "Program Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK_farisilham_exdir-removebg-preview.png",
+                  bio: "Bio dummy untuk Ahmad Risky, seorang Program Manager.",
+                  instagram: "https://instagram.com/ahmadrisky",
+                },
+                {
+                  name: "Siti Nurhaliza",
+                  position: "Program Coordinator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Zeta-removebg-preview.png",
+                  bio: "Bio dummy untuk Siti Nurhaliza, seorang Program Coordinator.",
+                  instagram: "https://instagram.com/sitinurhaliza",
+                },
+                {
+                  name: "Yusuf Tamara ",
+                  position: "Manajer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/20251027_233145-Yusuf-Tmr-scaled.jpg",
+                  bio: "Bio dummy untuk Yusuf Tamara, seorang Manajer.",
+                  instagram: "https://instagram.com/pakkk_yu",
+                },
+              ],
+            },
+            BroadCasting: {
+              name: "BroadCasting Division",
+              members: [
+                {
+                  name: "Ahmad Risky",
+                  position: "Program Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK_farisilham_exdir-removebg-preview.png",
+                  bio: "Bio dummy untuk Ahmad Risky, seorang Program Manager.",
+                  instagram: "https://instagram.com/ahmadrisky",
+                },
+                {
+                  name: "Siti Nurhaliza",
+                  position: "Program Coordinator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Zeta-removebg-preview.png",
+                  bio: "Bio dummy untuk Siti Nurhaliza, seorang Program Coordinator.",
+                  instagram: "https://instagram.com/sitinurhaliza",
+                },
+                {
+                  name: "Najwa Faiz Dwi Tanaya",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG_5836-Najwa-Faiz-Dwi-Tanaya-scaled.jpeg",
+                  bio: "Bio dummy untuk Najwa Faiz Dwi Tanaya, seorang Staff.",
+                  instagram: "https://instagram.com/dwtanaya",
+                },
+                {
+                  name: "Muhammad Naufal Ridho",
+                  position: "Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/20251022_171057-Muhammad-Naufal-Ridho-scaled.jpg",
+                  bio: "Bio dummy untuk Muhammad Naufal Ridho, seorang Staff.",
+                  instagram: "https://instagram.com/naufalridho24",
+                },
+                {
+                  name: "Cherryl Nasywa Syabina",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/47F7C1B8-02D1-44F8-9760-2A95A831A94A-Nash-Ryl-scaled.jpeg",
+                  bio: "Bio dummy untuk Cherryl Nasywa Syabina, seorang Staff.",
+                  instagram: "https://instagram.com/Syernasywaa",
+                },
+                {
+                  name: "Nidio Fatih Annesta",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/original-2025-06-27-000556.465-Broadcasting-Radio-PPI-Dunia-scaled.jpeg",
+                  bio: "Bio dummy untuk Nidio Fatih Annesta, seorang Staff.",
+                  instagram: "https://instagram.com/nidiofatih",
+                },
+                {
+                  name: "Ruth Wisanthea Putri",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG-20250319-WA0018-Ruth-Wisanthea-Putri-scaled.jpg",
+                  bio: "Bio dummy untuk Ruth Wisanthea Putri, seorang Staff.",
+                  instagram: "https://instagram.com/ruthwisan",
+                },
+                {
+                  name: "Auliannisa Putri Parantika",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG_0351-Auliannisa-P.-Parantika-1-scaled.jpg",
+                  bio: "Bio dummy untuk Auliannisa Putri Parantika, seorang Staff.",
+                  instagram: "https://instagram.com/aulnnsp_",
+                },
+              ],
+            },
+          },
+        },
+        production: {
+          name: "Production",
+          divisions: {
+            visdes: {
+              name: "Visual And Design Division",
+              members: [
+                {
+                  name: "Elang Fatih Al-Mahdi",
+                  position: "Production Director",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Elang_-_DirProd-removebg-preview.png",
+                  bio: "Bio dummy untuk Elang Fatih Al-Mahdi, seorang Production Director.",
+                  instagram: "https://instagram.com/elangfatih",
+                },
+                {
+                  name: "Fajar Nugroho",
+                  position: "Video Editor",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Putri_Bendahara.png",
+                  bio: "Bio dummy untuk Fajar Nugroho, seorang Video Editor.",
+                  instagram: "https://instagram.com/fajarnugroho",
+                },
+                {
+                  name: "Yuni Shara",
+                  position: "Videographer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Ridla.png",
+                  bio: "Bio dummy untuk Yuni Shara, seorang Videographer.",
+                  instagram: "https://instagram.com/yunishara",
+                },
+                {
+                  name: "Minnatul Maula ",
+                  position: "Asisten Manajer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/motion_photo_7910247552193638098-minnatul-maula.jpg",
+                  bio: "Bio dummy untuk Minnatul Maula, seorang Asisten Manajer.",
+                  instagram: "https://instagram.com/minnatulmaulaaa",
+                },
+                {
+                  name: "Angela Putri Larasati",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/DSCF4143-Angela-Laras-scaled.jpeg",
+                  bio: "Bio dummy untuk Angela Putri Larasati, seorang Staff.",
+                  instagram: "https://instagram.com/larasserie",
+                },
+                {
+                  name: "Kindy Al Farabi",
+                  position: "Sobat Siar",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/Kindy-Al-Farabi-Kindy-Al-farabi.jpg",
+                  bio: "Bio dummy untuk Kindy Al Farabi, seorang Sobat Siar.",
+                  instagram: "https://instagram.com/alvaro.kinds",
+                },
+                {
+                  name: "Ulya Cita Khairani",
+                  position: "Manajer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/3d818381-7ddb-4a61-8f79-182bca91b44c-Indonesia-Day-2025-scaled.jpg",
+                  bio: "Bio dummy untuk Ulya Cita Khairani, seorang Manajer.",
+                  instagram: "https://instagram.com/ulya.cita",
+                },
+              ],
+            },
+            audio: {
+              name: "Audio Division",
+              members: [
+                {
+                  name: "Dewi Lestari",
+                  position: "Audio Director",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Putri_Bendahara.png",
+                  bio: "Bio dummy untuk Dewi Lestari, seorang Audio Director.",
+                  instagram: "https://instagram.com/dewilestari",
+                },
+                {
+                  name: "Arif Rahman",
+                  position: "Sound Engineer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Ridla.png",
+                  bio: "Bio dummy untuk Arif Rahman, seorang Sound Engineer.",
+                  instagram: "https://instagram.com/arifrahman",
+                },
+                {
+                  name: "Zulfa Syafiqoh Munadiyanah ",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/20250706_095449_113456-ZULFA-SYAFIQOH-M-1-scaled-e1763111458526.jpg",
+                  bio: "Bio dummy untuk Zulfa Syafiqoh Munadiyanah, seorang Staff.",
+                  instagram: "https://instagram.com/ZulfaSyaf",
+                },
+                {
+                  name: "Muhamad Rayhan Aushaf Herman ",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG-20251106-WA0033-Muhamad-Putra-scaled.jpg",
+                  bio: "Bio dummy untuk Muhamad Rayhan Aushaf Herman, seorang Staff.",
+                  instagram: "https://instagram.com/rayhanaushaf_",
+                },
+                {
+                  name: "Aisyah Shakira Putri",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/50FCC44A-22AB-4BF7-8C90-5603398ED4F6-Aisyah-Shakira.jpeg",
+                  bio: "Bio dummy untuk Aisyah Shakira Putri, seorang Staff.",
+                  instagram: "https://instagram.com/aisyshkp",
+                },
+              ],
+            },
+            video: {
+              name: "Video Division",
+              members: [
+                {
+                  name: "Dewi Lestari",
+                  position: "Audio Director",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Putri_Bendahara.png",
+                  bio: "Bio dummy untuk Dewi Lestari, seorang Audio Director.",
+                  instagram: "https://instagram.com/dewilestari",
+                },
+                {
+                  name: "Arif Rahman",
+                  position: "Sound Engineer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Ridla.png",
+                  bio: "Bio dummy untuk Arif Rahman, seorang Sound Engineer.",
+                  instagram: "https://instagram.com/arifrahman",
+                },
+                {
+                  name: "Bagoes Muhammad Santoso",
+                  position: "Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG_7915-1-Bagoes-Santoso-scaled.jpg",
+                  bio: "Bio dummy untuk Bagoes Muhammad Santoso, seorang Manager.",
+                  instagram: "https://instagram.com/bagoesmsantoso",
+                },
+                {
+                  name: "Natalia Enya",
+                  position: "Asistent Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/photo_2025-11-10_23-54-02-Natalia-Enya.jpg",
+                  bio: "Bio dummy untuk Natalia Enya, seorang Asistent Manager.",
+                  instagram: "https://instagram.com/enyaplz",
+                },
+                {
+                  name: "Keisha Aura Fajria Putri",
+                  position: "Asistent Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/FullSizeRender-Keisha-Aura-scaled.jpeg",
+                  bio: "Bio dummy untuk Keisha Aura Fajria Putri, seorang Asistent Manager.",
+                  instagram: "https://instagram.com/keishaaura",
+                },
+              ],
+            },
+            event: {
+              name: "Event Division",
+              members: [
+                {
+                  name: "Dewi Lestari",
+                  position: "Audio Director",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Putri_Bendahara.png",
+                  bio: "Bio dummy untuk Dewi Lestari, seorang Audio Director.",
+                  instagram: "https://instagram.com/dewilestari",
+                },
+                {
+                  name: "Arif Rahman",
+                  position: "Sound Engineer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Ridla.png",
+                  bio: "Bio dummy untuk Arif Rahman, seorang Sound Engineer.",
+                  instagram: "https://instagram.com/arifrahman",
+                },
+                {
+                  name: "Nasywa Atsil Naura Sonata",
+                  position: "Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG-20250831-WA0382-Nasywa-Atsil.jpg",
+                  bio: "Bio dummy untuk Nasywa Atsil Naura Sonata, seorang Manager.",
+                  instagram: "https://instagram.com/nasywatsl",
+                },
+                {
+                  name: "Khairul Arizka Salman",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG_9921-Khairul-Arizka-scaled.jpeg",
+                  bio: "Bio dummy untuk Khairul Arizka Salman, seorang Staff.",
+                  instagram: "https://instagram.com/khrlarizka",
+                },
+                {
+                  name: "M. Zulfan Maulana",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG-20251023-WA0027-Zulfan-Maulana-scaled.jpg",
+                  bio: "Bio dummy untuk M. Zulfan Maulana, seorang Staff.",
+                  instagram: "https://instagram.com/Mauls_34",
+                },
+                {
+                  name: "Muhammad Fahroji",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG_20250830_105555-Muhammad-Fahroji-scaled.jpg",
+                  bio: "Bio dummy untuk Muhammad Fahroji, seorang Staff.",
+                  instagram: "https://instagram.com/fhroo",
+                },
+                {
+                  name: "Alif Saputro",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/1762690907607-Alif-Saputro-scaled.png",
+                  bio: "Bio dummy untuk Alif Saputro, seorang Staff.",
+                  instagram: "https://instagram.com/Aliep_sa",
+                },
+              ],
+            },
+          },
+        },
+        communication: {
+          name: "Communication",
+          divisions: {
+            public_relations: {
+              name: "Public Relations",
+              members: [
+                {
+                  name: "Maya Sari",
+                  position: "PR Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/alio_dirops-removebg-preview.png",
+                  bio: "Bio dummy untuk Maya Sari, seorang PR Manager.",
+                  instagram: "https://instagram.com/mayasari",
+                },
+                {
+                  name: "Budi Santoso",
+                  position: "PR Officer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Jasmine_Sekre1.png",
+                  bio: "Bio dummy untuk Budi Santoso, seorang PR Officer.",
+                  instagram: "https://instagram.com/budisantoso",
+                },
+                {
+                  name: "Azizah Roif Maysun",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/cpm35-2025-08-30-172821.369-azizah-maysun-scaled.jpeg",
+                  bio: "Bio dummy untuk Azizah Roif Maysun, seorang PR Officer.",
+                  instagram: "https://instagram.com/zaahrfm",
+                },
+                {
+                  name: "Syurga Adn",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/ccdr-2025-10-05-11750.347-PM-Syurgaadn-176-scaled.jpeg",
+                  bio: "Bio dummy untuk Syurga Adn, seorang PR Officer.",
+                  instagram: "https://instagram.com/Syrgadnn_",
+                },
+                {
+                  name: "Zaskia Rahmadhani",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG_20250510_174915_258-Zayn-Alexis.webp",
+                  bio: "Bio dummy untuk Zaskia Rahmadhani, seorang Staff.",
+                  instagram: "https://instagram.com/zaskia_rahmd",
+                },
+                {
+                  name: "Azizah Roif Maysun",
+                  position: "Staff",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/11/IMG-20251011-WA0024-Cindy-Fatimah-scaled.jpg",
+                  bio: "Bio dummy untuk Azizah Roif Maysun, seorang Staff.",
+                  instagram: "https://instagram.com/zaahrfm",
+                },
+              ],
+            },
+            community: {
+              name: "Community Relations",
+              members: [
+                {
+                  name: "Rina Kusuma",
+                  position: "Community Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-dini-Marketing.png",
+                  bio: "Bio dummy untuk Rina Kusuma, seorang Community Manager.",
+                  instagram: "https://instagram.com/rinakusuma",
+                },
+                {
+                  name: "Andi Wijaya",
+                  position: "Community Coordinator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Elang_-_DirProd-removebg-preview.png",
+                  bio: "Bio dummy untuk Andi Wijaya, seorang Community Coordinator.",
+                  instagram: "https://instagram.com/andiwijaya",
+                },
+              ],
+            },
+            research: {
+              name: "Reasearch Division",
+              members: [
+                {
+                  name: "Rina Kusuma",
+                  position: "Community Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-dini-Marketing.png",
+                  bio: "Bio dummy untuk Rina Kusuma, seorang Community Manager.",
+                  instagram: "https://instagram.com/rinakusuma",
+                },
+                {
+                  name: "Andi Wijaya",
+                  position: "Community Coordinator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Elang_-_DirProd-removebg-preview.png",
+                  bio: "Bio dummy untuk Andi Wijaya, seorang Community Coordinator.",
+                  instagram: "https://instagram.com/andiwijaya",
+                },
+              ],
+            },
+          },
+        },
+        marketing: {
+          name: "Marketing",
+          divisions: {
+            social_media: {
+              name: "Social Media",
+              members: [
+                {
+                  name: "Siti Nurhaliza",
+                  position: "Social Media Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Zeta-removebg-preview.png",
+                  bio: "Bio dummy untuk Siti Nurhaliza, seorang Social Media Manager.",
+                  instagram: "https://instagram.com/sitinurhaliza",
+                },
+                {
+                  name: "Ahmad Risky",
+                  position: "Content Creator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK_farisilham_exdir-removebg-preview.png",
+                  bio: "Bio dummy untuk Ahmad Risky, seorang Content Creator.",
+                  instagram: "https://instagram.com/ahmadrisky",
+                },
+              ],
+            },
+            sales: {
+              name: "Sales & Partnership",
+              members: [
+                {
+                  name: "Hendra Gunawan",
+                  position: "Sales Director",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Zeta-removebg-preview.png",
+                  bio: "Bio dummy untuk Hendra Gunawan, seorang Sales Director.",
+                  instagram: "https://instagram.com/hendragunawan",
+                },
+                {
+                  name: "Dian Pratiwi",
+                  position: "Partnership Manager",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK_farisilham_exdir-removebg-preview.png",
+                  bio: "Bio dummy untuk Dian Pratiwi, seorang Partnership Manager.",
+                  instagram: "https://instagram.com/dianpratiwi",
+                },
+              ],
+            },
+          },
+        },
+        technology: {
+          name: "Technology",
+          divisions: {
+            mobweb: {
+              name: "Mobile & Web Dev",
+              members: [
+                {
+                  name: "Ahmad Risky",
+                  position: "Mobile Web Developer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK_farisilham_exdir-removebg-preview.png",
+                  bio: "Bio dummy untuk Ahmad Risky, seorang Mobile Web Developer.",
+                  instagram: "https://instagram.com/ahmadrisky",
+                },
+                {
+                  name: "Siti Nurhaliza",
+                  position: "Frontend Developer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Zeta-removebg-preview.png",
+                  bio: "Bio dummy untuk Siti Nurhaliza, seorang Frontend Developer.",
+                  instagram: "https://instagram.com/sitinurhaliza",
+                },
+                {
+                  name: "Budi Santoso",
+                  position: "Backend Developer",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-Jasmine_Sekre1.png",
+                  bio: "Bio dummy untuk Budi Santoso, seorang Backend Developer.",
+                  instagram: "https://instagram.com/budisantoso",
+                },
+              ],
+            },
+            technical: {
+              name: "Technical Division",
+              members: [
+                {
+                  name: "Muhammad Zulfan Abidin",
+                  position: "Technology Director",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/zulfan.png",
+                  bio: "Bio dummy untuk Muhammad Zulfan Abidin, seorang Technology Director.",
+                  instagram: "https://instagram.com/zulfanabidin",
+                },
+                {
+                  name: "Andi Wijaya",
+                  position: "Technical Specialist",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Elang_-_DirProd-removebg-preview.png",
+                  bio: "Bio dummy untuk Andi Wijaya, seorang Technical Specialist.",
+                  instagram: "https://instagram.com/andiwijaya",
+                },
+                {
+                  name: "Rina Kusuma",
+                  position: "Systems Administrator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-dini-Marketing.png",
+                  bio: "Bio dummy untuk Rina Kusuma, seorang Systems Administrator.",
+                  instagram: "https://instagram.com/rinakusuma",
+                },
+              ],
+            },
+            music: {
+              name: "Music Division",
+              members: [
+                {
+                  name: "Muhammad Zulfan Abidin",
+                  position: "Technology Director",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/zulfan.png",
+                  bio: "Bio dummy untuk Muhammad Zulfan Abidin, seorang Technology Director.",
+                  instagram: "https://instagram.com/zulfanabidin",
+                },
+                {
+                  name: "Andi Wijaya",
+                  position: "Technical Specialist",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/Elang_-_DirProd-removebg-preview.png",
+                  bio: "Bio dummy untuk Andi Wijaya, seorang Technical Specialist.",
+                  instagram: "https://instagram.com/andiwijaya",
+                },
+                {
+                  name: "Rina Kusuma",
+                  position: "Systems Administrator",
+                  image:
+                    "https://radioppidunia.org/wp-content/uploads/2025/09/SK-dini-Marketing.png",
+                  bio: "Bio dummy untuk Rina Kusuma, seorang Systems Administrator.",
+                  instagram: "https://instagram.com/rinakusuma",
+                },
+              ],
+            },
+          },
+        },
+      };
+
+      let currentSwiper = null;
+      let currentDirectorate = null;
+      let currentDivision = null;
+
+      function initSwiper() {
+        if (currentSwiper) {
+          currentSwiper.destroy(true, true);
+        }
+
+        currentSwiper = new Swiper("#radio-ppid-team-section .swiper", {
+          effect: "coverflow",
+          grabCursor: true,
+          centeredSlides: true,
+          loop: false,
+          slidesPerView: "auto",
+          coverflowEffect: {
+            rotate: 50,
+            stretch: 0,
+            depth: 100,
+            modifier: 1,
+            slideShadows: true,
+          },
+          navigation: {
+            nextEl: "#radio-ppid-team-section .unique-slider-next",
+            prevEl: "#radio-ppid-team-section .unique-slider-prev",
+          },
+        });
+      }
+
+      function updateBreadcrumb() {
+        const breadcrumbNav = document.getElementById("breadcrumb-nav");
+        const breadcrumbDirectorateContainer = document.getElementById(
+          "breadcrumb-directorate-container"
+        );
+        const breadcrumbDivisionContainer = document.getElementById(
+          "breadcrumb-division-container"
+        );
+        const breadcrumbDirectorate = document.getElementById(
+          "breadcrumb-directorate"
+        );
+        const breadcrumbDivision = document.getElementById(
+          "breadcrumb-division"
+        );
+
+        if (!currentDirectorate && !currentDivision) {
+          breadcrumbNav.classList.remove("show");
+          return;
+        }
+
+        breadcrumbNav.classList.add("show");
+
+        if (currentDirectorate) {
+          breadcrumbDirectorateContainer.style.display = "flex";
+          breadcrumbDirectorate.textContent = teamData[currentDirectorate].name;
+        } else {
+          breadcrumbDirectorateContainer.style.display = "none";
+        }
+
+        if (currentDivision) {
+          breadcrumbDivisionContainer.style.display = "flex";
+          breadcrumbDivision.textContent =
+            teamData[currentDirectorate].divisions[currentDivision].name;
+        } else {
+          breadcrumbDivisionContainer.style.display = "none";
+        }
+      }
+
+      /**
+       * FUNGSI BARU: Untuk merender anggota tim ke slider
+       * @param {Array} members - Array objek anggota
+       */
+      function renderTeamMembers(members) {
+        const wrapper = document.getElementById("team-swiper-wrapper");
+
+        if (!members || members.length === 0) {
+          wrapper.innerHTML = `
+                            <div class="empty-state">
+                                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                                <p>No team members found</p>
+                            </div>
+                        `;
+          // Hancurkan swiper jika ada, karena tidak ada slide
+          if (currentSwiper) {
+            currentSwiper.destroy(true, true);
+            currentSwiper = null;
+          }
+          return;
+        }
+
+        wrapper.innerHTML = members
+          .map(
+            (member) => `
+                        <div class="swiper-slide">
+                            <img src="${member.image}" alt="Foto ${
+              member.name
+            }">
+                            <div class="content">
+                                <h3>${member.name}</h3>
+                                <p>${member.position}</p>
+                                <p class="member-bio">${
+                                  member.bio ||
+                                  "Short bio about the member goes here. Passionate and dedicated."
+                                }</p>
+                                <div class="member-actions">
+                                    <a class="ig-button" href="${
+                                      member.instagram ||
+                                      "https://instagram.com"
+                                    }" target="_blank" rel="noopener noreferrer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.9.3 2.4.5.6.3 1 .7 1.4 1.4.2.6.4 1.3.5 2.4.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.3 1.9-.5 2.4-.3.6-.7 1-1.4 1.4-.6.2-1.3.4-2.4.5-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.9-.3-2.4-.5-.6-.3-1-.7-1.4-1.4-.2-.6-.4-1.3-.5-2.4C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.3-1.9.5-2.4.3-.6.7-1 1.4-1.4.6-.2 1.3-.4 2.4-.5C8.4 2.2 8.8 2.2 12 2.2m0-2.2C8.7 0 8.3 0 7 .1 5.7.2 4.9.5 4.1.9c-.9.4-1.6 1-2.3 2C1.5 4.3 1.2 5.1 1.1 6.4.9 7.7.9 8.1.9 12s0 4.3.1 5.6c.1 1.3.4 2.1.8 2.9.6 1 1.4 1.7 2.3 2.1.8.4 1.6.7 2.9.8 1.3.1 1.7.1 5.6.1s4.3 0 5.6-.1c1.3-.1 2.1-.4 2.9-.8 1-.6 1.7-1.4 2.1-2.3.4-.8.7-1.6.8-2.9.1-1.3.1-1.7.1-5.6s0-4.3-.1-5.6c-.1-1.3-.4-2.1-.8-2.9-.6-1-1.4-1.7-2.3-2.1C19.1.5 18.3.2 17 .1 15.7 0 15.3 0 12 0z"/></svg>
+                                        Instagram
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    `
+          )
+          .join("");
+
+        initSwiper();
+      }
+
+      /**
+       * DIPERBARUI: Sekarang menggunakan renderTeamMembers
+       */
+      function renderAllTeamMembers() {
+        let allMembers = [];
+
+        Object.keys(teamData).forEach((dirKey) => {
+          const directorate = teamData[dirKey];
+          // DIPERBARUI: Cek anggota langsung (BOD)
+          if (directorate.members && directorate.members.length > 0) {
+            allMembers = allMembers.concat(directorate.members);
+          }
+          // Cek anggota di dalam divisi (Operational, dll)
+          else if (directorate.divisions) {
+            Object.keys(directorate.divisions).forEach((divKey) => {
+              const division = directorate.divisions[divKey];
+              allMembers = allMembers.concat(division.members);
+            });
+          }
+        });
+
+        renderTeamMembers(allMembers);
+      }
+
+      /**
+       * DIPERBARUI: Sekarang menggunakan renderTeamMembers
+       */
+      function renderTeam(directorate, division) {
+        const members =
+          teamData[directorate]?.divisions[division]?.members || [];
+        renderTeamMembers(members);
+      }
+
+      /**
+       * DIPERBARUI: Untuk menambahkan kelas .no-sub-divisions
+       */
+      function renderDirectorates() {
+        const container = document.getElementById("directorate-buttons");
+        container.innerHTML = Object.keys(teamData)
+          .map((key) => {
+            const directorate = teamData[key];
+            // Cek apakah ada divisi (lebih dari 0)
+            const hasDivisions = Object.keys(directorate.divisions).length > 0;
+            // Tambahkan kelas 'no-sub-divisions' jika tidak ada divisi
+            const btnClass = hasDivisions
+              ? "division-button"
+              : "division-button no-sub-divisions";
+
+            return `
+                            <button class="${btnClass}" data-directorate="${key}">
+                                ${directorate.name}
+                            </button>
+                        `;
+          })
+          .join("");
+      }
+
+      function renderSubDivisions(directorate) {
+        const container = document.getElementById("sub-division-buttons");
+        const title = document.getElementById("sub-division-title");
+        const subDivisionContainer = document.getElementById(
+          "sub-division-container"
+        );
+
+        const divisions = teamData[directorate]?.divisions || {};
+
+        title.textContent = `${teamData[directorate].name} - Divisions`;
+
+        container.innerHTML = Object.keys(divisions)
+          .map(
+            (key) => `
+                        <button class="sub-division-button" data-division="${key}">
+                            ${divisions[key].name}
+                        </button>
+                    `
+          )
+          .join("");
+
+        subDivisionContainer.classList.add("show");
+      }
+
+      /**
+       * DIPERBARUI: Logika untuk menangani klik BOD vs Direktorat lain
+       */
+      /**
+       * DIPERBARUI: Logika untuk menangani klik BOD vs Direktorat lain
+       */
+      function handleDirectorateClick(e) {
+        const button = e.target.closest(".division-button");
+        if (!button) return;
+
+        const directorate = button.getAttribute("data-directorate");
+        // const wasActive = button.classList.contains('active'); // <-- Dihapus
+
+        document
+          .querySelectorAll("#radio-ppid-team-section .division-button")
+          .forEach((btn) => {
+            btn.classList.remove("active");
+          });
+
+        /*
+                    // --- BLOK INI DIHAPUS KARENA MENYEBABKAN BUG ---
+                    if (wasActive) {
+                        // Jika tombol yang aktif diklik lagi, kembali ke "All Teams"
+                        currentDirectorate = null;
+                        currentDivision = null;
+                        document.getElementById('sub-division-container').classList.remove('show');
+                        document.getElementById('main-title').style.display = 'block';
+                        renderAllTeamMembers();
+                        updateBreadcrumb();
+                        return;
+                    }
+                    // --- AKHIR BLOK YANG DIHAPUS ---
+                    */
+
+        currentDirectorate = directorate;
+        currentDivision = null; // <-- Ini PENTING: mereset pilihan divisi
+        button.classList.add("active");
+
+        const directorateData = teamData[directorate];
+
+        // DIPERBARUI: Cek apakah direktorat ini punya 'members' langsung (seperti BOD)
+        if (directorateData.members && directorateData.members.length > 0) {
+          // Ini adalah BOD atau direktorat sejenis
+          document
+            .getElementById("sub-division-container")
+            .classList.remove("show");
+          document.getElementById("main-title").style.display = "none";
+          renderTeamMembers(directorateData.members); // Langsung render anggotanya
+        } else {
+          // Ini adalah direktorat biasa dengan sub-divisi (Operational, dll)
+          document.getElementById("main-title").style.display = "block";
+          renderSubDivisions(directorate); // <-- Ini memunculkan kembali panel sub-divisi
+
+          // --- PERUBAHAN DI SINI ---
+          // Tampilkan SEMUA anggota dari direktorat itu.
+          renderAllMembersOfDirectorate(directorate);
+          // --- AKHIR PERUBAHAN ---
+        }
+
+        updateBreadcrumb();
+      }
+
+      function handleSubDivisionClick(e) {
+        const button = e.target.closest(".sub-division-button");
+        if (!button) return;
+
+        const division = button.getAttribute("data-division");
+
+        document
+          .querySelectorAll("#radio-ppid-team-section .sub-division-button")
+          .forEach((btn) => {
+            btn.classList.remove("active");
+          });
+        button.classList.add("active");
+
+        currentDivision = division;
+
+        document
+          .getElementById("sub-division-container")
+          .classList.remove("show");
+        document.getElementById("main-title").style.display = "none";
+
+        renderTeam(currentDirectorate, division);
+        updateBreadcrumb();
+      }
+
+      function handleBreadcrumbClick(target) {
+        if (target.id === "breadcrumb-home") {
+          currentDirectorate = null;
+          currentDivision = null;
+
+          document
+            .querySelectorAll("#radio-ppid-team-section .division-button")
+            .forEach((btn) => {
+              btn.classList.remove("active");
+            });
+
+          document
+            .getElementById("sub-division-container")
+            .classList.remove("show");
+          document.getElementById("main-title").style.display = "block";
+
+          renderAllTeamMembers();
+          updateBreadcrumb();
+        } else if (target.id === "breadcrumb-directorate") {
+          // Cek jika ini BOD, jangan tampilkan sub-divisi
+          if (
+            teamData[currentDirectorate].members &&
+            teamData[currentDirectorate].members.length > 0
+          ) {
+            return; // Jangan lakukan apa-apa, sudah di halaman BOD
+          }
+
+          currentDivision = null;
+
+          document
+            .getElementById("sub-division-container")
+            .classList.add("show");
+          document.getElementById("main-title").style.display = "block";
+
+          document
+            .querySelectorAll("#radio-ppid-team-section .sub-division-button")
+            .forEach((btn) => {
+              btn.classList.remove("active");
+            });
+
+          // Kosongkan slider
+          document.getElementById("team-swiper-wrapper").innerHTML = "";
+          if (currentSwiper) currentSwiper.destroy(true, true);
+
+          updateBreadcrumb();
+        }
+      }
+
+      /**
+       * DIPERBARUI: Fungsi init sekarang default ke BOD
+       */
+      function init() {
+        renderDirectorates();
+
+        // --- STATE DEFAULT BARU: LANGSUNG TAMPILKAN BOD ---
+        currentDirectorate = "bod"; // Set state ke 'bod'
+        currentDivision = null;
+
+        // 1. Render anggota BOD ke slider
+        renderTeamMembers(teamData.bod.members);
+
+        // 2. Buat tombol BOD aktif
+        const bodButton = document.querySelector(
+          '#radio-ppid-team-section .division-button[data-directorate="bod"]'
+        );
+        if (bodButton) {
+          bodButton.classList.add("active");
+        }
+
+        // 3. Update breadcrumb
+        updateBreadcrumb();
+
+        // 4. Sembunyikan judul "Directorat" karena kita sudah memilih
+        document.getElementById("main-title").style.display = "none";
+        // --- AKHIR STATE DEFAULT BARU ---
+
+        // Setup event listeners
+        document
+          .getElementById("directorate-buttons")
+          .addEventListener("click", handleDirectorateClick);
+        document
+          .getElementById("sub-division-buttons")
+          .addEventListener("click", handleSubDivisionClick);
+
+        document
+          .getElementById("breadcrumb-nav")
+          .addEventListener("click", (e) => {
+            if (e.target.classList.contains("breadcrumb-link")) {
+              handleBreadcrumbClick(e.target);
+            }
+          });
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+
+    /**
+     * FUNGSI BARU: Untuk merender SEMUA anggota dari satu direktorat
+     * @param {string} directorateKey - Kunci direktorat (mis. "operational")
+     */
+    function renderAllMembersOfDirectorate(directorateKey) {
+      const directorate = teamData[directorateKey];
+      let allMembers = [];
+
+      if (directorate && directorate.divisions) {
+        Object.keys(directorate.divisions).forEach((divKey) => {
+          const division = directorate.divisions[divKey];
+          if (division.members) {
+            allMembers = allMembers.concat(division.members);
+          }
+        });
+      }
+
+      renderTeamMembers(allMembers); // Gunakan fungsi render yang sudah ada
+    }
+  </script>
+</div>
